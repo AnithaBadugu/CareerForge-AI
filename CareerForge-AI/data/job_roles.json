@@ -1,0 +1,49 @@
+{
+  "roles": {
+    "AI Engineer": [
+      "Python",
+      "Machine Learning",
+      "Deep Learning",
+      "LangGraph",
+      "RAG",
+      "Vector Databases",
+      "API Development"
+    ],
+    "Python Developer": [
+      "Python",
+      "Object-Oriented Programming",
+      "SQL",
+      "Git",
+      "REST APIs",
+      "Testing",
+      "Data Structures"
+    ],
+    "Data Analyst": [
+      "Python",
+      "SQL",
+      "Statistics",
+      "Data Visualization",
+      "Excel",
+      "Pandas",
+      "Power BI"
+    ],
+    "Machine Learning Engineer": [
+      "Python",
+      "Statistics",
+      "Machine Learning",
+      "Deep Learning",
+      "Model Evaluation",
+      "SQL",
+      "MLOps"
+    ],
+    "Backend Developer": [
+      "Python",
+      "REST APIs",
+      "SQL",
+      "Database Design",
+      "Git",
+      "Testing",
+      "Authentication"
+    ]
+  }
+}
