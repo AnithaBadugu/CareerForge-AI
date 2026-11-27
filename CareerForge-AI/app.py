@@ -50,13 +50,21 @@ st.markdown("""
 :root {
     --ink:#172033;
     --muted:#64748b;
-    --line:#e8edf5;
-    --purple:#5b5bd6;
+    --line:#e2e8f0;
+    --purple:#5149b8;
     --blue:#3b82f6;
 }
 
+[data-testid="stApp"],
+[data-testid="stMain"] {
+    font-family:'Inter',sans-serif;
+    color:var(--ink);
+}
+
 [data-testid="stAppViewContainer"] {
-    background:linear-gradient(135deg,#f7f8ff 0%,#f8fbff 55%,#f5f7fb 100%);
+    background:
+        radial-gradient(ellipse at 92% 3%,#e9eaff 0,transparent 28%),
+        linear-gradient(145deg,#f8faff 0%,#f8fafc 52%,#f1f5fb 100%);
     color:var(--ink);
 }
 
@@ -73,9 +81,21 @@ st.markdown("""
 }
 
 .block-container {
-    padding-top:1.7rem;
-    padding-bottom:3rem;
-    max-width:1200px;
+    padding-top:2rem;
+    padding-bottom:3.5rem;
+    max-width:1280px;
+}
+
+[data-testid="stMain"] h1,
+[data-testid="stMain"] h2,
+[data-testid="stMain"] h3,
+[data-testid="stMain"] h4 {
+    color:#1e2454;
+    letter-spacing:-.025em;
+}
+
+[data-testid="stMain"] p {
+    line-height:1.65;
 }
 
 .main-title {
@@ -93,44 +113,64 @@ st.markdown("""
 }
 
 .hero {
-    padding:1.6rem 1.8rem;
+    padding:2rem 2.2rem;
+    border:1px solid rgba(255,255,255,.16);
     border-radius:24px;
-    background:linear-gradient(120deg,#26245f,#5149b8 65%,#6d63dd);
+    background:
+        radial-gradient(circle at 90% 15%,rgba(173,164,255,.32),transparent 28%),
+        linear-gradient(120deg,#20204f,#5149b8 65%,#655bd0);
     color:white;
-    margin-bottom:1.2rem;
-    box-shadow:0 16px 35px #3730a31c;
+    margin-bottom:1.5rem;
+    box-shadow:0 18px 42px rgba(49,46,129,.16);
 }
 
 .hero h1 {
     color:white;
-    font-size:2rem;
+    font-size:clamp(1.8rem,3vw,2.4rem);
     font-weight:800;
-    margin:0 0 .4rem 0;
+    letter-spacing:-.04em;
+    margin:0 0 .55rem 0;
 }
 
 .hero p {
     color:#e6e7ff;
     margin:0;
-    font-size:1rem;
+    font-size:1.02rem;
+    max-width:760px;
+    line-height:1.7;
 }
 
 .section-card {
-    background:#fff;
+    min-height:145px;
+    background:linear-gradient(145deg,#fff,#fbfcff);
     border:1px solid var(--line);
-    border-radius:18px;
-    padding:1.2rem 1.35rem;
-    margin:.4rem 0 1rem;
-    box-shadow:0 7px 22px #18204408;
+    border-radius:20px;
+    padding:1.35rem 1.45rem;
+    margin:.4rem 0 1.1rem;
+    box-shadow:0 8px 26px rgba(24,32,68,.055);
+    transition:transform .18s ease,box-shadow .18s ease;
+}
+
+.section-card h3 {
+    color:#292661;
+    font-size:1.08rem;
+    margin:.1rem 0 .55rem;
+}
+
+.section-card p {
+    color:#58657a;
+    font-size:.94rem;
+    margin:0;
 }
 
 .week-card {
-    background:#fff;
-    border:1px solid #e6e9f6;
-    border-left:5px solid #625bd5;
-    border-radius:16px;
-    padding:1rem 1.2rem;
+    background:linear-gradient(145deg,#fff,#fbfcff);
+    border:1px solid var(--line);
+    border-left:4px solid #625bd5;
+    border-radius:18px;
+    padding:1.1rem 1.3rem;
     margin:.7rem 0;
-    box-shadow:0 8px 20px #1f245008;
+    box-shadow:0 8px 24px rgba(31,36,80,.055);
 }
 
 .week-task {
@@ -174,41 +214,55 @@ st.markdown("""
 }
 
 div[data-testid="stMetric"] {
-    background:white;
+    background:linear-gradient(145deg,#fff,#fbfcff);
     border:1px solid var(--line);
-    padding:16px;
-    border-radius:16px;
-    box-shadow:0 6px 18px #18204408;
+    padding:18px;
+    border-radius:18px;
+    box-shadow:0 7px 22px rgba(24,32,68,.05);
+}
+
+div[data-testid="stMetric"] label {
+    color:#64748b;
+    font-weight:600;
+}
+
+div[data-testid="stMetric"] [data-testid="stMetricValue"] {
+    color:#292661;
+    font-weight:800;
 }
 
 .stTabs [data-baseweb="tab-list"] {
-    gap:8px;
-    background:#eceeff;
-    padding:7px;
-    border-radius:14px;
+    gap:6px;
+    background:#e9eaf6;
+    padding:6px;
+    border:1px solid #e0e3f0;
+    border-radius:16px;
 }
 
 .stTabs [data-baseweb="tab"] {
-    border-radius:10px;
-    padding:9px 16px;
-    color:#555b7a;
+    border-radius:11px;
+    padding:10px 16px;
+    color:#535c75;
     font-weight:650;
 }
 
 .stTabs [aria-selected="true"] {
     background:white;
     color:#3730a3 !important;
-    box-shadow:0 2px 8px #18204412;
+    box-shadow:0 3px 10px rgba(24,32,68,.09);
 }
 
 .stButton > button,
 .stDownloadButton > button {
-    border-radius:11px;
+    min-height:2.7rem;
+    border-radius:12px;
     border:0;
     background:linear-gradient(90deg,#5149b8,#7066df);
     color:white;
     font-weight:700;
-    padding:.65rem 1rem;
+    padding:.7rem 1rem;
+    box-shadow:0 5px 14px rgba(81,73,184,.16);
+    transition:transform .16s ease,box-shadow .16s ease,background .16s ease;
 }
 
 .stButton > button:hover,
@@ -216,6 +270,14 @@ div[data-testid="stMetric"] {
     border:0;
     color:white;
     background:linear-gradient(90deg,#4338a8,#6257d2);
+    transform:translateY(-1px);
+    box-shadow:0 8px 18px rgba(81,73,184,.23);
+}
+
+.stButton > button:focus-visible,
+.stDownloadButton > button:focus-visible {
+    outline:3px solid #a5b4fc;
+    outline-offset:2px;
 }
 
 [data-testid="stTextInput"] input,
@@ -224,21 +286,84 @@ div[data-testid="stMetric"] {
     border-radius:10px;
 }
 
-[data-testid="stFileUploader"] {
+[data-testid="stTextInput"] input,
+[data-testid="stTextArea"] textarea {
     background:#fff;
-    border:1px dashed #c9ccef;
-    border-radius:14px;
-    padding:.7rem;
+    color:#172033;
+    border-color:#cbd5e1;
+}
+
+[data-testid="stTextInput"] input:focus,
+[data-testid="stTextArea"] textarea:focus {
+    border-color:#7066df;
+    box-shadow:0 0 0 3px rgba(112,102,223,.13);
+}
+
+[data-testid="stForm"] {
+    background:rgba(255,255,255,.72);
+    border:1px solid var(--line);
+    border-radius:20px;
+    padding:1.25rem 1.35rem;
+}
+
+[data-testid="stFileUploader"] {
+    background:rgba(255,255,255,.82);
+    border:1px dashed #aeb8df;
+    border-radius:16px;
+    padding:.8rem;
 }
 
 [data-testid="stExpander"] {
-    background:#fff;
+    background:rgba(255,255,255,.86);
     border:1px solid var(--line);
-    border-radius:12px;
+    border-radius:14px;
+}
+
+[data-testid="stAlert"] {
+    border-radius:14px;
+}
+
+[data-testid="stDataFrame"] {
+    border:1px solid var(--line);
+    border-radius:14px;
+    overflow:hidden;
+}
+
+[data-testid="stVerticalBlockBorderWrapper"] {
+    background:rgba(255,255,255,.82);
+    border:1px solid var(--line);
+    border-radius:18px;
+    box-shadow:0 8px 26px rgba(24,32,68,.055);
 }
 
 hr {
     border-color:#e7eaf3;
+}
+
+[data-testid="stPlotlyChart"] {
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius:18px;
+    padding:.6rem;
+    box-shadow:0 7px 22px rgba(24,32,68,.045);
+}
+
+@media (max-width:760px) {
+    .block-container {
+        padding-top:1.2rem;
+        padding-left:1rem;
+        padding-right:1rem;
+    }
+
+    .hero {
+        padding:1.5rem;
+        border-radius:19px;
+    }
+
+    .stTabs [data-baseweb="tab"] {
+        padding:8px 10px;
+        font-size:.85rem;
+    }
 }
 </style>
 """, unsafe_allow_html=True)
@@ -473,12 +598,6 @@ with st.sidebar:
     )
 
     st.divider()
-
-    if os.getenv("GROQ_API_KEY"):
-        st.success("Groq configured")
-
-    if os.getenv("OPENAI_API_KEY"):
-        st.success("OpenAI configured")
 
     if st.button("Log out", width="stretch"):
         logout()
@@ -831,6 +950,30 @@ elif page == "Career Plan":
             []
         ) or []
 
+        matched_lower = {
+            str(skill).casefold()
+            for skill in matched
+        }
+        missing_lower = {
+            str(skill).casefold()
+            for skill in missing
+        }
+        skills_for_table = required or list(
+            dict.fromkeys(matched + missing)
+        )
+        skill_status_rows = [
+            {
+                "Skill": skill,
+                "Status": (
+                    "Missing"
+                    if str(skill).casefold() in missing_lower
+                    or str(skill).casefold() not in matched_lower
+                    else "Not missing"
+                ),
+            }
+            for skill in skills_for_table
+        ]
+
         coverage = (
             round(
                 len(matched) / len(required) * 100
@@ -896,17 +1039,12 @@ elif page == "Career Plan":
 
             with chart_right:
 
-                matched_lower = {
-                    item.lower()
-                    for item in matched
-                }
-
                 skill_rows = [
                     {
                         "Skill": skill,
                         "Status": (
                             "Matched"
-                            if skill.lower() in matched_lower
+                            if str(skill).casefold() in matched_lower
                             else "To learn"
                         )
                     }
@@ -1058,35 +1196,19 @@ elif page == "Career Plan":
                     )
                 )
 
-            left, right = st.columns(2)
-
-            with left:
-
-                st.markdown("#### ✅ Skills you have")
-
-                if matched:
-
-                    for skill in matched:
-                        st.markdown(f"- {skill}")
-
-                else:
-                    st.caption(
-                        "No matched skills listed."
-                    )
-
-            with right:
-
-                st.markdown("#### 📌 Skills to build")
-
-                if missing:
-
-                    for skill in missing:
-                        st.markdown(f"- {skill}")
-
-                else:
-                    st.caption(
-                        "No skill gaps listed."
-                    )
+            st.markdown("#### Skill checklist")
+            st.caption(
+                "Not missing means the skill is already matched to your profile. "
+                "Missing skills are areas to focus on next."
+            )
+            if skill_status_rows:
+                st.dataframe(
+                    pd.DataFrame(skill_status_rows),
+                    width="stretch",
+                    hide_index=True
+                )
+            else:
+                st.caption("No required skills are available for this analysis.")
 
 
         # ROADMAP TAB
@@ -1192,12 +1314,24 @@ elif page == "Career Plan":
 
 elif page == "Resume Q&A":
 
-    st.title("Ask questions about your resume")
+    st.markdown(
+        '<div class="hero">'
+        '<h1>Resume interview coach</h1>'
+        '<p>Ask a question and get a concise answer grounded in the '
+        'experience and skills in your uploaded resume.</p>'
+        '</div>',
+        unsafe_allow_html=True
+    )
 
     if not st.session_state.get("resume_text"):
 
         st.warning(
-            "Please upload your resume first."
+            "Upload a resume to unlock personalized interview answers."
+        )
+        st.button(
+            "Go to career plan and upload a resume →",
+            type="primary",
+            on_click=go_to_career_plan
         )
 
     else:
@@ -1277,11 +1411,9 @@ Return plain text only.
                     json_mode=False,
                 )
 
-            st.markdown("### Answer")
-
-            st.markdown(
-                answer
-            )
+            with st.container(border=True):
+                st.markdown("### Suggested answer")
+                st.markdown(answer)
 
 
 # ============================================================
@@ -1290,12 +1422,24 @@ Return plain text only.
 
 elif page == "Reports":
 
-    st.title("Download your reports")
+    st.markdown(
+        '<div class="hero">'
+        '<h1>Your career reports</h1>'
+        '<p>Take your personalized career plan with you. Download a '
+        'readable report or export your skill checklist.</p>'
+        '</div>',
+        unsafe_allow_html=True
+    )
 
     if not result:
 
         st.info(
-            "Generate a career plan first."
+            "Your reports will appear here after you generate a career plan."
+        )
+        st.button(
+            "Create my career plan →",
+            type="primary",
+            on_click=go_to_career_plan
         )
 
     else:
@@ -1305,54 +1449,48 @@ elif page == "Reports":
             role or "Career Plan"
         )
 
-        st.caption(
-            f"Report for: {role}"
+        st.markdown(
+            f'<div class="section-card">'
+            f'<h3>Ready for your next step</h3>'
+            f'<p>Your latest plan is for <strong>{html.escape(str(role))}</strong>. '
+            f'Choose a format below to save or share it.</p>'
+            f'</div>',
+            unsafe_allow_html=True
         )
 
-        st.download_button(
-            "Download complete Markdown report",
-            markdown_report(
-                result,
-                role
-            ),
-            "careerforge_report.md",
-            "text/markdown",
-            width="stretch"
-        )
+        report_columns = st.columns(3, gap="medium")
+        with report_columns[0]:
+            st.download_button(
+                "Download Markdown report",
+                markdown_report(result, role),
+                "careerforge_report.md",
+                "text/markdown",
+                width="stretch"
+            )
 
-        st.download_button(
-            "Download PDF career report",
-            pdf_report(
-                result,
-                role
-            ),
-            "careerforge_report.pdf",
-            "application/pdf",
-            width="stretch"
-        )
+        with report_columns[1]:
+            st.download_button(
+                "Download PDF report",
+                pdf_report(result, role),
+                "careerforge_report.pdf",
+                "application/pdf",
+                width="stretch"
+            )
 
         comparison = result.get(
             "mcp_skill_comparison",
             {}
         ) or {}
 
-        st.download_button(
-            "Download skills CSV",
-            skills_csv(
-                result.get(
-                    "required_skills",
-                    []
+        with report_columns[2]:
+            st.download_button(
+                "Download skills CSV",
+                skills_csv(
+                    result.get("required_skills", []),
+                    comparison.get("matched", []),
+                    comparison.get("missing", [])
                 ),
-                comparison.get(
-                    "matched",
-                    []
-                ),
-                comparison.get(
-                    "missing",
-                    []
-                )
-            ),
-            "careerforge_skills.csv",
-            "text/csv",
-            width="stretch"
-        )
+                "careerforge_skills.csv",
+                "text/csv",
+                width="stretch"
+            )

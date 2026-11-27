@@ -1,11 +1,16 @@
-import streamlit as st
 import pandas as pd
 import plotly.express as px
-from database import history_for_user, get_analysis
+import streamlit as st
+
+from database import get_analysis, history_for_user
+
 
 def show_dashboard(user_id, username, result=None):
-    st.title("Your Career Dashboard")
-    st.caption(f"Welcome, {username} — track your preparation for your target role.")
+    st.markdown("### Progress overview")
+    st.caption(
+        f"Your latest skill analysis and saved career plans, {username}."
+    )
+
     if result:
         comparison = result.get("mcp_skill_comparison", {}) or {}
         matched = comparison.get("matched", []) or []
@@ -13,46 +18,129 @@ def show_dashboard(user_id, username, result=None):
         required = result.get("required_skills", []) or []
         total = len(required)
         coverage = round(len(matched) / total * 100) if total else 0
-        a,b,c = st.columns(3)
-        a.metric("Required skills", total)
-        b.metric("Matched skills", len(matched))
-        c.metric("Skill coverage", f"{coverage}%")
-        # Show learner study details from the latest generated profile.
+
+        metric_columns = st.columns(3)
+        metric_columns[0].metric("Role skills", total)
+        metric_columns[1].metric("Skills matched", len(matched))
+        metric_columns[2].metric("Skill coverage", f"{coverage}%")
+
         study_fields = [
             ("Education", result.get("education_level")),
             ("Degree", result.get("degree")),
             ("Graduation", result.get("graduation_year")),
-            ("Study hours/week", result.get("weekly_study_hours")),
+            ("Study hours / week", result.get("weekly_study_hours")),
         ]
-        visible_study = [(label, value) for label, value in study_fields if value and value != "Not specified"]
+        visible_study = [
+            (label, value)
+            for label, value in study_fields
+            if value and value != "Not specified"
+        ]
         if visible_study:
-            st.subheader("Study profile")
-            study_cols = st.columns(min(4, len(visible_study)))
+            st.markdown("#### Your study profile")
+            study_columns = st.columns(min(4, len(visible_study)))
             for index, (label, value) in enumerate(visible_study):
-                study_cols[index].metric(label, value)
+                study_columns[index].metric(label, value)
+
         if required:
-            df = pd.DataFrame({"Skill": required, "Status": ["Matched" if s.lower() in {m.lower() for m in matched} else "Gap" for s in required]})
-            st.subheader("Skills overview")
-            fig = px.bar(df, x="Skill", color="Status", title="Required skills: matched vs skill gaps")
-            fig.update_layout(template="plotly_white", height=360, legend_title_text="Status")
-            st.plotly_chart(fig, width="stretch")
-            gap_df = pd.DataFrame({"Status": ["Matched", "Missing"], "Count": [len(matched), len(missing)]})
-            fig2 = px.pie(gap_df, names="Status", values="Count", hole=0.58, title="Skill coverage")
-            fig2.update_layout(template="plotly_white", height=330, margin=dict(t=55, b=10, l=10, r=10), legend_title_text="")
-            st.plotly_chart(fig2, width="stretch")
+            matched_lower = {skill.lower() for skill in matched}
+            status_by_skill = [
+                "Matched" if skill.lower() in matched_lower else "To learn"
+                for skill in required
+            ]
+            skills_frame = pd.DataFrame(
+                {"Skill": required, "Status": status_by_skill}
+            )
+
+            st.markdown("#### Skills at a glance")
+            chart_column, coverage_column = st.columns(2, gap="large")
+            with chart_column:
+                bar = px.bar(
+                    skills_frame,
+                    x="Skill",
+                    color="Status",
+                    title="Skills for your target role",
+                    color_discrete_map={
+                        "Matched": "#16a37a",
+                        "To learn": "#f0a44b",
+                    },
+                )
+                bar.update_layout(
+                    template="plotly_white",
+                    height=360,
+                    font_family="Inter",
+                    margin=dict(t=60, b=55, l=12, r=12),
+                    xaxis_title="",
+                    yaxis_title="",
+                    legend_title_text="",
+                    plot_bgcolor="rgba(0,0,0,0)",
+                    paper_bgcolor="rgba(0,0,0,0)",
+                )
+                bar.update_xaxes(tickangle=-30, gridcolor="#eef1f7")
+                bar.update_yaxes(gridcolor="#eef1f7")
+                st.plotly_chart(bar, width="stretch")
+
+            with coverage_column:
+                coverage_frame = pd.DataFrame(
+                    {
+                        "Status": ["Matched", "Missing"],
+                        "Count": [len(matched), len(missing)],
+                    }
+                )
+                pie = px.pie(
+                    coverage_frame,
+                    names="Status",
+                    values="Count",
+                    hole=0.62,
+                    title="Your skill coverage",
+                    color="Status",
+                    color_discrete_map={
+                        "Matched": "#16a37a",
+                        "Missing": "#f0a44b",
+                    },
+                )
+                pie.update_layout(
+                    template="plotly_white",
+                    height=360,
+                    font_family="Inter",
+                    margin=dict(t=60, b=12, l=12, r=12),
+                    legend_title_text="",
+                    paper_bgcolor="rgba(0,0,0,0)",
+                )
+                st.plotly_chart(pie, width="stretch")
+
         if missing:
-            st.info("Priority skills to learn: " + ", ".join(missing))
-    st.subheader("Analysis history")
+            st.info("Focus skills for your next study session: " + ", ".join(missing))
+
+    st.markdown("### Saved career plans")
     rows = history_for_user(user_id)
     if not rows:
-        st.caption("Your saved career plans will appear here.")
+        st.caption(
+            "Your saved plans will appear here after you complete a career analysis."
+        )
         return
-    hist = pd.DataFrame([dict(row) for row in rows])
-    st.dataframe(hist.rename(columns={"id":"Analysis ID", "target_role":"Target role", "created_at":"Created"}), width="stretch", hide_index=True)
-    ids = [row["id"] for row in rows]
-    selected = st.selectbox("Open a saved analysis", ids, format_func=lambda i: next(f"#{row['id']} · {row['target_role']} · {row['created_at']}" for row in rows if row['id']==i))
-    if st.button("Load selected analysis"):
-        saved = get_analysis(user_id, selected)
+
+    history = pd.DataFrame([dict(row) for row in rows])
+    history = history.rename(
+        columns={
+            "id": "Plan",
+            "target_role": "Target role",
+            "created_at": "Created",
+        }
+    )
+    st.dataframe(history, width="stretch", hide_index=True)
+
+    analysis_ids = [row["id"] for row in rows]
+    selected_id = st.selectbox(
+        "Open a saved plan",
+        analysis_ids,
+        format_func=lambda analysis_id: next(
+            f"Plan #{row['id']} · {row['target_role']} · {row['created_at']}"
+            for row in rows
+            if row["id"] == analysis_id
+        ),
+    )
+    if st.button("Open selected plan", type="primary"):
+        saved = get_analysis(user_id, selected_id)
         if saved:
             st.session_state["careerforge_result"] = saved["result"]
             st.session_state["careerforge_role"] = saved["target_role"]
