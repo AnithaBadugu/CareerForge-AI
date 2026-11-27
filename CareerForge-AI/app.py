@@ -480,7 +480,7 @@ with st.sidebar:
     if os.getenv("OPENAI_API_KEY"):
         st.success("OpenAI configured")
 
-    if st.button("Log out", use_container_width=True):
+    if st.button("Log out", width="stretch"):
         logout()
 
 
@@ -653,7 +653,7 @@ elif page == "Career Plan":
         submitted = st.form_submit_button(
             "✨ Generate personalized career plan",
             type="primary",
-            use_container_width=True
+            width="stretch"
         )
 
 
@@ -891,7 +891,7 @@ elif page == "Career Plan":
 
                 st.plotly_chart(
                     pie,
-                    use_container_width=True
+                    width="stretch"
                 )
 
             with chart_right:
@@ -940,7 +940,7 @@ elif page == "Career Plan":
 
                 st.plotly_chart(
                     bar,
-                    use_container_width=True
+                    width="stretch"
                 )
 
 
@@ -1163,7 +1163,7 @@ elif page == "Career Plan":
                 ),
                 "careerforge_report.md",
                 "text/markdown",
-                use_container_width=True
+                width="stretch"
             )
 
 
@@ -1317,7 +1317,7 @@ elif page == "Reports":
             ),
             "careerforge_report.md",
             "text/markdown",
-            use_container_width=True
+            width="stretch"
         )
 
         st.download_button(
@@ -1328,7 +1328,7 @@ elif page == "Reports":
             ),
             "careerforge_report.pdf",
             "application/pdf",
-            use_container_width=True
+            width="stretch"
         )
 
         comparison = result.get(
@@ -1354,5 +1354,5 @@ elif page == "Reports":
             ),
             "careerforge_skills.csv",
             "text/csv",
-            use_container_width=True
+            width="stretch"
         )

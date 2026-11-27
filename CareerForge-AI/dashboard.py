@@ -35,11 +35,11 @@ def show_dashboard(user_id, username, result=None):
             st.subheader("Skills overview")
             fig = px.bar(df, x="Skill", color="Status", title="Required skills: matched vs skill gaps")
             fig.update_layout(template="plotly_white", height=360, legend_title_text="Status")
-            st.plotly_chart(fig, use_container_width=True)
+            st.plotly_chart(fig, width="stretch")
             gap_df = pd.DataFrame({"Status": ["Matched", "Missing"], "Count": [len(matched), len(missing)]})
             fig2 = px.pie(gap_df, names="Status", values="Count", hole=0.58, title="Skill coverage")
             fig2.update_layout(template="plotly_white", height=330, margin=dict(t=55, b=10, l=10, r=10), legend_title_text="")
-            st.plotly_chart(fig2, use_container_width=True)
+            st.plotly_chart(fig2, width="stretch")
         if missing:
             st.info("Priority skills to learn: " + ", ".join(missing))
     st.subheader("Analysis history")
@@ -48,7 +48,7 @@ def show_dashboard(user_id, username, result=None):
         st.caption("Your saved career plans will appear here.")
         return
     hist = pd.DataFrame([dict(row) for row in rows])
-    st.dataframe(hist.rename(columns={"id":"Analysis ID", "target_role":"Target role", "created_at":"Created"}), use_container_width=True, hide_index=True)
+    st.dataframe(hist.rename(columns={"id":"Analysis ID", "target_role":"Target role", "created_at":"Created"}), width="stretch", hide_index=True)
     ids = [row["id"] for row in rows]
     selected = st.selectbox("Open a saved analysis", ids, format_func=lambda i: next(f"#{row['id']} · {row['target_role']} · {row['created_at']}" for row in rows if row['id']==i))
     if st.button("Load selected analysis"):

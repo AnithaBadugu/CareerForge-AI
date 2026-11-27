@@ -18,7 +18,7 @@ def auth_page():
             password = st.text_input("Password", type="password")
             if mode == "Create account":
                 confirm = st.text_input("Confirm password", type="password")
-                if st.button("Create account", type="primary", use_container_width=True):
+                if st.button("Create account", type="primary", width="stretch"):
                     username = username.strip()
                     if not re.fullmatch(r"[A-Za-z0-9_.-]{3,40}", username):
                         st.error("Username must be 3–40 characters: letters, numbers, dot, underscore or hyphen.")
@@ -31,7 +31,7 @@ def auth_page():
                     else:
                         st.error("That username already exists.")
             else:
-                if st.button("Login", type="primary", use_container_width=True):
+                if st.button("Login", type="primary", width="stretch"):
                     user = find_user(username.strip())
                     if user and check_password_hash(user["password_hash"], password):
                         st.session_state["user_id"] = user["id"]
